@@ -1,0 +1,46 @@
+{
+  "manifest_version": 3,
+  "name": "Metadrip Browser Agent",
+  "version": "1.0",
+  "description": "A Browser AI Agent by Metadrip.ai for versatile tasks across the internet.",
+  "permissions": ["scripting", "activeTab", "storage"],
+  "host_permissions": [
+    "https://*.twitter.com/*",
+    "https://*.pump.fun/*",
+    "https://*.solscan.io/*",
+    "https://*.solana.fm/*",
+    "https://*.dexscreener.com/*",
+    "http://localhost:5000/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    },
+    "default_title": "Metadrip Agent"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.twitter.com/*",
+        "https://*.pump.fun/*",
+        "https://*.solscan.io/*", 
+        "https://*.solana.fm/*",
+        "https://*.dexscreener.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "homepage_url": "https://app.metadrip.ai"
+}

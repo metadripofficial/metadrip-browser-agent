@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0f0f0f;
+      color: white;
+      margin: 0;
+      padding: 0; /* Removed padding from body */
+      width: 350px;
+      height: 520px;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .logo img {
+      width: 48px;
+      height: 48px;
+    }
+
+    h3 {
+      text-align: center;
+      margin: 0 0 10px;
+      font-size: 17px;
+      color: #00ffff;
+    }
+
+    textarea {
+      width: 95%;
+      height: 40px;
+      border: none;
+      border-radius: 6px;
+      padding: 8px;
+      font-size: 14px;
+      resize: none;
+      margin-bottom: 10px;
+      background: #1a1a1a;
+      color: white;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .clear {
+      display: none;
+    }
+
+    .start {
+      background: #00ff99;
+      color: #000;
+    }
+
+    .stop {
+      background: #ff3c3c;
+      color: #fff;
+    }
+
+    .highlight {
+      background: #222;
+      color: #fff;
+      border: 1px solid #555;
+    }
+
+    .store {
+      background: linear-gradient(to right, #00ffff, #ff00ff);
+      color: #000;
+    }
+
+    button:hover {
+      transform: scale(1.03);
+    }
+
+    #addresses {
+      background-color: #222;
+      padding: 4px;
+      height: 100px;
+      border-radius: 5px;
+      font-size: 14px;
+      color: #888;
+      overflow-y: scroll;
+      display: none;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    #addresses::-webkit-scrollbar {
+      display: none;
+      /* Chrome, Safari, Opera */
+    }
+
+    /* Main content padding */
+    #main-content {
+      padding: 15px;
+    }
+
+    /* Disclaimer styles */
+    #disclaimer-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0f0f0f;
+      z-index: 1000;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .disclaimer-header {
+      padding: 10px 15px 0 15px;
+    }
+
+    #disclaimer-content {
+      background: #1a1a1a;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 0 15px 10px 15px;
+      height: 340px; /* Reduced height */
+      overflow-y: auto;
+      font-size: 13px;
+      line-height: 1.4;
+      flex: 1;
+    }
+
+    .disclaimer-footer {
+      padding: 0 15px 15px 15px;
+      background: #0f0f0f;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    #disclaimer-container h2 {
+      font-size: 16px;
+      color: #00ff99;
+      margin-top: 15px;
+      margin-bottom: 5px;
+    }
+
+    #disclaimer-container h3 {
+      margin-bottom: 10px;
+    }
+
+    #disclaimer-container p, #disclaimer-container ul {
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    #disclaimer-container ul {
+      padding-left: 20px;
+    }
+
+    #disclaimer-container li {
+      margin-bottom: 6px;
+    }
+
+    #accept-btn {
+      background: linear-gradient(to right, #00ffff, #00ff99);
+      color: #000;
+      margin: 0;
+      font-size: 15px;
+      padding: 12px;
+      width: 100%;
+      border-radius: 6px;
+    }
+
+    /* Custom scrollbar for disclaimer */
+    #disclaimer-content::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #disclaimer-content::-webkit-scrollbar-track {
+      background: #0f0f0f;
+    }
+
+    #disclaimer-content::-webkit-scrollbar-thumb {
+      background: #00ff99;
+      border-radius: 3px;
+    }
+
+    /* Tab navigation styles */
+    .tabs {
+      display: flex;
+      margin-bottom: 10px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: #222;
+      color: #888;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .tab-btn.active {
+      background: #00ff99;
+      color: #000;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .instructions-container {
+      padding: 8px;
+      max-height: 410px;
+      overflow-y: auto;
+      background: #1a1a1a;
+      border-radius: 8px;
+    }
+
+    .instructions-container::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .instructions-container::-webkit-scrollbar-track {
+      background: #0f0f0f;
+    }
+
+    .instructions-container::-webkit-scrollbar-thumb {
+      background: #00ff99;
+      border-radius: 3px;
+    }
+
+    .instructions-container h4 {
+      margin: 5px 0 15px;
+      text-align: center;
+      color: #00ffff;
+      font-size: 16px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #333;
+    }
+
+    .instructions-container h5 {
+      color: #00ff99;
+      margin: 12px 0 8px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .instructions-container h5:before {
+      content: "●";
+      margin-right: 6px;
+      color: #00ffff;
+    }
+
+    .instructions-container ol {
+      padding-left: 25px;
+      margin-bottom: 15px;
+      counter-reset: item;
+      list-style-type: none;
+    }
+    
+    .instructions-container ol li {
+      margin-bottom: 6px;
+      position: relative;
+      padding-left: 8px;
+      line-height: 1.3;
+    }
+    
+    .instructions-container ol li:before {
+      counter-increment: item;
+      content: counter(item);
+      position: absolute;
+      left: -25px;
+      width: 20px;
+      height: 20px;
+      background: #333;
+      color: #00ffff;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 20px;
+      font-size: 12px;
+    }
+
+    .instructions-container ul {
+      list-style-type: none;
+      padding-left: 15px;
+      margin-bottom: 15px;
+    }
+
+    .instructions-container ul li {
+      margin-bottom: 6px;
+      position: relative;
+      padding-left: 15px;
+      line-height: 1.3;
+    }
+    
+    .instructions-container ul li:before {
+      content: "→";
+      color: #00ffff;
+      position: absolute;
+      left: 0;
+    }
+
+    .instructions-container p.note {
+      margin-top: 12px;
+      font-size: 12px;
+      color: #ff9900;
+      background: rgba(255, 153, 0, 0.1);
+      padding: 8px;
+      border-radius: 4px;
+      border-left: 3px solid #ff9900;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Main popup UI -->
+  <div id="main-content">
+    <div class="logo">
+      <img src="icon48.png" alt="Metadrip Logo">
+    </div>
+    <h3>Metadrip Browser Agent</h3>
+    
+    <!-- Tab navigation -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="commands">Commands</button>
+      <button class="tab-btn" data-tab="instructions">Instructions</button>
+    </div>
+    
+    <!-- Commands tab content -->
+    <div id="commands-tab" class="tab-content active">
+      <textarea id="instruction" placeholder="Enter command..."></textarea>
+      <div id="addresses"></div>
+      <button class="clear" id="clear">🗑 Clear</button>
+      <button class="start" id="run">▶ Start</button>
+      <button class="stop" id="stop">✖ Stop</button>
+      <button class="highlight" id="highlight-toggle">🧠 Highlight: OFF</button>
+      <button class="store" id="store">🛍 Visit Agent App Store</button>
+    </div>
+    
+    <!-- Instructions tab content -->
+    <div id="instructions-tab" class="tab-content">
+      <div class="instructions-container">
+        <h4>✨ How to Use Metadrip Agent ✨</h4>
+        
+        <h5>Scanning Solana Contract Addresses</h5>
+        <ol>
+          <li>Navigate to Twitter or Pump.fun where Solana addresses appear</li>
+          <li>Click the Metadrip extension icon to open the popup</li>
+          <li>Type <strong>"Scan Contract Address"</strong> in the command field</li>
+          <li>Click the <strong>Start</strong> button to begin scanning</li>
+          <li>The extension will automatically scroll and scan the page</li>
+          <li>Found addresses will appear in the results area</li>
+          <li>Click any address to copy it to your clipboard</li>
+          <li>Click <strong>Stop</strong> when you're done scanning</li>
+        </ol>
+        
+        <h5>Other Useful Features</h5>
+        <ul>
+          <li>Toggle <strong>Highlight</strong> to see interactive elements on the page</li>
+          <li>Colored outlines show buttons, links and text areas</li>
+          <li>Click <strong>Clear</strong> to remove all previously found addresses</li>
+          <li>Visit the <strong>Agent App Store</strong> for additional tools</li>
+        </ul>
+        
+        <h5>Pro Tips</h5>
+        <ul>
+          <li>Use the exact command <strong>"Scan Contract Address"</strong> for best results</li>
+          <li>Works best on Twitter, Pump.fun and crypto forums</li>
+          <li>Allow sufficient time for scanning larger pages</li>
+          <li>Use highlighting to better understand page structure</li>
+        </ul>
+        
+        <h5>Troubleshooting</h5>
+        <ul>
+          <li>If extension isn't working properly, clear your browser cache</li>
+          <li>Restart your browser completely and try again</li>
+          <li>Make sure you're using the latest version of Chrome</li>
+          <li>Check that all permissions are granted for the extension</li>
+        </ul>
+        
+        <p class="note">⚠️ Remember that all blockchain interactions involve risk. Always verify addresses before use with multiple sources.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Disclaimer UI -->
+  <div id="disclaimer-container">
+    <div class="disclaimer-header">
+      <div class="logo">
+        <img src="icon48.png" alt="Metadrip Logo">
+      </div>
+      <h3>Metadrip Risk Disclaimer</h3>
+    </div>
+    
+    <div id="disclaimer-content">
+      <h2>1. Introduction</h2>
+      <p>Metadrip ("we," "us," or "our") is an AI-powered decentralized finance (DeFi) platform built on the Solana blockchain. By accessing and using Metadrip, you acknowledge that you have read, understood, and agreed to this Risk Disclaimer.</p>
+      
+      <h2>2. No Financial, Investment, or Trading Advice</h2>
+      <ul>
+        <li>Metadrip is NOT a financial advisor. All information provided is for informational purposes only.</li>
+        <li>Past performance does not guarantee future results.</li>
+        <li>Always conduct your own research.</li>
+      </ul>
+      
+      <h2>3. Blockchain and Smart Contract Risks</h2>
+      <ul>
+        <li>Smart contracts may contain vulnerabilities that could result in loss of funds.</li>
+        <li>Blockchain transactions are irreversible.</li>
+      </ul>
+      
+      <h2>4. Market Risks and Volatility</h2>
+      <ul>
+        <li>Cryptocurrency prices are highly volatile, leading to potential losses.</li>
+        <li>Regulatory changes may impact the availability of Metadrip.</li>
+      </ul>
+      
+      <h2>5. AI-Powered Services and Limitations</h2>
+      <ul>
+        <li>AI-driven predictions do not guarantee profitable results.</li>
+        <li>Technical errors may lead to inaccurate data.</li>
+      </ul>
+      
+      <h2>6. Third-Party Integrations</h2>
+      <ul>
+        <li>Metadrip connects with third-party DeFi platforms.</li>
+        <li>Users are responsible for safeguarding their private keys.</li>
+      </ul>
+      
+      <h2>7. Security and Cyber Risks</h2>
+      <ul>
+        <li>Beware of phishing scams and impersonators.</li>
+        <li>No system is 100% secure against cyberattacks.</li>
+      </ul>
+      
+      <h2>8. Regulatory and Legal Risks</h2>
+      <ul>
+        <li>Not available for users in the United States or United Kingdom.</li>
+        <li>Users must comply with their local laws.</li>
+      </ul>
+      
+      <h2>Final Notice</h2>
+      <p>Using Metadrip involves substantial risk and is intended for experienced users. You acknowledge that you use Metadrip at your own risk.</p>
+    </div>
+    
+    <div class="disclaimer-footer">
+      <button id="accept-btn">I Accept & Understand the Risks</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+
+</html>
